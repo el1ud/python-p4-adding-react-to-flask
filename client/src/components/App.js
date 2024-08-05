@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Header from "./Header";
+import Header from "./Header"; 
 import Search from "./Search";
 import MessageList from "./MessageList";
 import NewMessage from "./NewMessage";
@@ -13,10 +13,16 @@ function App() {
 
   useEffect(() => {
     fetch("http://127.0.0.1:5555/messages")
-      .then((r) => r.json())
-      .then((messages) => setMessages(messages));
+      .then(r => {
+        if (r.ok) {
+          return r.json()
+        }
+        throw r;
+      })
+      .then((messages) => setMessages(messages))
   }, []);
-
+  
+  
   function handleAddMessage(newMessage) {
     setMessages([...messages, newMessage]);
   }
